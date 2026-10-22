@@ -4,10 +4,10 @@ class_name CharacterDto
 
 var runtime_id: String
 var character_name: String
-var state: Character.CharacterState
+var state: RuntimeCharacter.CharacterState
 var position: MapPositionDto
 
-func _init(nruntime_id: String, nname: String, nstate: Character.CharacterState, nposition: MapPositionDto) -> void:
+func _init(nruntime_id: String, nname: String, nstate: RuntimeCharacter.CharacterState, nposition: MapPositionDto) -> void:
 	runtime_id = nruntime_id
 	character_name = nname
 	state = nstate

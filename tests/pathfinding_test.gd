@@ -26,15 +26,15 @@ func run() -> void:
 	quit(0 if _failures == 0 else 1)
 
 func _test_contract() -> void:
-	var map := Map.new(4, 5)
+	var map := RuntimeMap.new(4, 5)
 	check(_service.find_path(null, Cell.new(0,0), map).is_empty(), "null start")
 	check(_service.find_path(Cell.new(0,0), null, map).is_empty(), "null goal")
 	check(_service.find_path(Cell.new(0,0), Cell.new(1,1), null).is_empty(), "null map")
 	for invalid in [Cell.new(-1,0), Cell.new(0,-1), Cell.new(4,0), Cell.new(0,5)]:
 		check(_service.find_path(invalid, Cell.new(0,0), map).is_empty(), "start out of bounds")
 		check(_service.find_path(Cell.new(0,0), invalid, map).is_empty(), "goal out of bounds")
-	check(_service.find_path(Cell.new(0,0), Cell.new(0,0), Map.new(0,0)).is_empty(), "empty map")
-	check(_service.find_path(Cell.new(0,0), Cell.new(0,0), Map.new(-2,-3)).is_empty(), "negative dimensions")
+	check(_service.find_path(Cell.new(0,0), Cell.new(0,0), RuntimeMap.new(0,0)).is_empty(), "empty map")
+	check(_service.find_path(Cell.new(0,0), Cell.new(0,0), RuntimeMap.new(-2,-3)).is_empty(), "negative dimensions")
 	var start := Cell.new(1,1)
 	var same := _service.find_path(start, Cell.new(1,1), map)
 	check(same.size() == 1 and same[0].equals(start), "start equals goal")
@@ -45,9 +45,9 @@ func _test_contract() -> void:
 	route[0].row = 3
 	route[-1].column = 0
 	check(start.row == 1 and goal.column == 3, "route endpoints are copies")
-	_compare(Cell.new(0,0), Cell.new(0,6), Map.new(1,7), "one row")
-	_compare(Cell.new(0,0), Cell.new(6,0), Map.new(7,1), "one column")
-	var corner := Map.new(2,2,[Cell.new(0,1)])
+	_compare(Cell.new(0,0), Cell.new(0,6), RuntimeMap.new(1,7), "one row")
+	_compare(Cell.new(0,0), Cell.new(6,0), RuntimeMap.new(7,1), "one column")
+	var corner := RuntimeMap.new(2,2,[Cell.new(0,1)])
 	var corner_route := _service.find_path(Cell.new(0,0),Cell.new(1,1),corner)
 	check(corner_route.size() == 3, "one blocked side also forbids diagonal")
 	corner.occupy(Cell.new(1,0))
@@ -55,7 +55,7 @@ func _test_contract() -> void:
 
 func _test_map() -> void:
 	var source := Cell.new(1,1)
-	var map := Map.new(3,3,[source, Cell.new(1,1),Cell.new(9,9)])
+	var map := RuntimeMap.new(3,3,[source, Cell.new(1,1),Cell.new(9,9)])
 	check(map.get_occupied_cells().size() == 1, "duplicate and out-of-range obstacles")
 	source.row = 0
 	check(map.is_occupied(Cell.new(1,1)) and not map.is_occupied(source), "map copies input obstacles")
@@ -74,7 +74,7 @@ func _test_map() -> void:
 func _demo() -> void:
 	var obstacles: Array[Cell] = []
 	for row in range(4): obstacles.append(Cell.new(row,3))
-	var map := Map.new(6,7,obstacles)
+	var map := RuntimeMap.new(6,7,obstacles)
 	var start := Cell.new(1,1)
 	var goal := Cell.new(1,5)
 	_compare(start,goal,map,"wall detour demo")
@@ -105,7 +105,7 @@ func _demo() -> void:
 func _test_all_small_maps() -> void:
 	# Every obstacle arrangement in a 3x3 grid, every ordered start/goal pair.
 	for mask in range(512):
-		var map := Map.new(3,3)
+		var map := RuntimeMap.new(3,3)
 		for index in range(9):
 			if mask & (1 << index): map.occupy(Cell.new(index / 3,index % 3))
 		for start_index in range(9):
@@ -117,7 +117,7 @@ func _test_seeded_maps() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 20261021
 	for sample in range(200):
-		var map := Map.new(8,10)
+		var map := RuntimeMap.new(8,10)
 		for row in range(map.rows):
 			for column in range(map.columns):
 				if rng.randf() < 0.28: map.occupy(Cell.new(row,column))
@@ -128,7 +128,7 @@ func _test_seeded_maps() -> void:
 		_compare(start,goal,map,"seeded map %d" % sample)
 	print("PASS: 200 deterministic larger maps")
 
-func _compare(start: Cell, goal: Cell, map: Map, context: String) -> void:
+func _compare(start: Cell, goal: Cell, map: RuntimeMap, context: String) -> void:
 	_queries += 1
 	var route := _service.find_path(start,goal,map)
 	var expected := _reference_cost(start,goal,map)
@@ -161,7 +161,7 @@ func _path_cost(route: Array[Cell]) -> float:
 		cost += sqrt(2.0) if a.row!=b.row and a.column!=b.column else 1.0
 	return cost
 
-func _reference_cost(start: Cell, goal: Cell, map: Map) -> float:
+func _reference_cost(start: Cell, goal: Cell, map: RuntimeMap) -> float:
 	# Independent Dijkstra: numeric indices, dense arrays, no heuristic,
 	# no production helpers, no predecessor reconstruction.
 	if not map.is_walkable(start) or not map.is_walkable(goal): return INF

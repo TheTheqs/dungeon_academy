@@ -1,5 +1,8 @@
-class_name Map
 extends RefCounted
+
+class_name RuntimeMap
+
+var map_profile: MapProfile
 
 var rows: int
 var columns: int
@@ -48,3 +51,10 @@ func get_occupied_cells() -> Array[Cell]:
 	for cell in _occupied_cells:
 		result.append(Cell.new(cell.row, cell.column))
 	return result
+
+## A match owns its own mutable navigation grid and a private profile copy.
+static func from_profile(profile: MapProfile) -> RuntimeMap:
+	assert(profile != null, "RuntimeMap requires a map profile.")
+	var runtime_map := RuntimeMap.new(profile.rows, profile.columns, profile.occupied_cells)
+	runtime_map.map_profile = profile.copy()
+	return runtime_map

@@ -5,11 +5,11 @@ Implementado para Dungeon Academy, Godot 4.4.1.
 ## Onde ler, nesta ordem
 
 1. `back/domain/entities/cell.gd`: uma coordenada (linha, coluna).
-2. `back/domain/entities/map.gd`: dimensões e células ocupadas.
+2. `back/domain/entities/runtime_map.gd`: dimensões e células ocupadas.
 3. `back/application/services/pathfinding_service.gd`: busca A*.
 4. `tests/pathfinding_test.gd`: mapas de exemplo e testes executáveis.
 
-O contrato é `find_path(start: Cell, goal: Cell, map: Map) -> Array[Cell]`.
+O contrato é `find_path(start: Cell, goal: Cell, map: RuntimeMap) -> Array[Cell]`.
 Retorna TODAS as células adjacentes, incluindo início e destino. Não há
 suavização, pixels, centro de célula, conversão para posição, estado WALKING
 ou movimentação. O serviço não modifica o mapa nem as células de entrada.
@@ -188,7 +188,7 @@ var obstacles: Array[Cell] = [
     Cell.new(0, 3), Cell.new(1, 3),
     Cell.new(2, 3), Cell.new(3, 3)
 ]
-var map := Map.new(6, 7, obstacles)
+var map := RuntimeMap.new(6, 7, obstacles)
 var service := PathfindingService.new()
 var path: Array[Cell] = service.find_path(Cell.new(1,1), Cell.new(1,5), map)
 ```
@@ -240,14 +240,14 @@ possível, mas exercitam exaustivamente os mapas pequenos e casos maiores.
 - Busca síncrona, seleção linear da menor prioridade, adequada ao estudo/MVP.
   Não é uma solução otimizada para mapas gigantes; fila de prioridade é futura.
 - Apenas terreno uniforme, livre ou bloqueado; sem custos de terreno e corpo físico.
-- Map.rows/columns ainda são mutáveis: trate dimensões como fixas após criar o mapa.
+- RuntimeMap.rows/columns ainda são mutáveis: trate dimensões como fixas após criar o mapa.
 - Cell também é mutável: não altere coordenadas durante uma busca.
 - [] não distingue motivo da falha. Isso respeita o contrato pedido.
 - Sem dependência de Node, Vector2, AStarGrid2D, sprite ou textura no serviço.
   RefCounted/Array/Dictionary ainda dependem do runtime GDScript.
-- Corrigidos os nomes ocupy -> occupy e is_ocuppied -> is_occupied em Map.
+- Corrigidos os nomes ocupy -> occupy e is_ocuppied -> is_occupied em RuntimeMap.
 - Cell.equals agora aceita null com segurança; _to_string facilita estudar saídas.
-- Dimensões negativas em Map são normalizadas para zero.
+- Dimensões negativas em RuntimeMap são normalizadas para zero.
 - Corrigido extends duplicado em back/api.gd, mantendo RefCounted.
 
 ## Referências para estudar

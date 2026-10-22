@@ -11,7 +11,7 @@ const DIRECTIONS = [
 
 ## Returns all adjacent cells, including start and goal, in traversal order.
 ## Empty means invalid input or unreachable goal. No pixels or smoothing.
-func find_path(start: Cell, goal: Cell, map: Map) -> Array[Cell]:
+func find_path(start: Cell, goal: Cell, map: RuntimeMap) -> Array[Cell]:
 	var empty_result: Array[Cell] = []
 	if map == null or not map.is_walkable(start) or not map.is_walkable(goal):
 		return empty_result

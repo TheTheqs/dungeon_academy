@@ -1,0 +1,10 @@
+{
+  "data": [
+    {
+      "id": 0,
+      "character_name": "Swordman",
+      "agility": 1,
+      "textures":  ["swordsman_m"]
+    }
+  ]
+}
