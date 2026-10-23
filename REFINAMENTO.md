@@ -1,3 +1,5 @@
+> Documento histórico da Sprint 0. A tela de preview e seus componentes foram removidos; o fluxo atual usa GameScreen e CharacterView. Consulte docs/FIRST_GAME_SCREEN.md.
+
 # Guia das alterações
 
 ## Ordem sugerida para estudar

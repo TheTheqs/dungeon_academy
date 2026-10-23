@@ -1,5 +1,6 @@
-class_name GameState
 extends RefCounted
+
+class_name GameState
 
 var characters: Dictionary[String, RuntimeCharacter] = {}
 var current_map: RuntimeMap

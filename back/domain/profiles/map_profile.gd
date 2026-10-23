@@ -1,5 +1,6 @@
-class_name MapProfile
 extends RefCounted
+
+class_name MapProfile
 
 var id: int
 var map_name: String

@@ -1,5 +1,6 @@
-class_name TextureLoader
 extends RefCounted
+
+class_name TextureLoader
 
 const CHARACTER_TEXTURES_PATH: String = "res://assets/textures/sprites/characters/"
 const MAP_TEXTURES_PATH: String = "res://assets/textures/scenario/maps/"

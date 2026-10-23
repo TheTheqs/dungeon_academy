@@ -1,5 +1,6 @@
-class_name ScreenRoot
 extends Control
+
+class_name ScreenRoot
 
 @onready var screen_host: Control = $ScreenHost
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7cjfx3f1crgg"]
+[gd_scene load_steps=2 format=3 uid="uid://dgpsevwf0erf3"]
 
-[ext_resource type="PackedScene" uid="uid://rmmptibj53bv" path="res://front/components/entities/character_preview.tscn" id="1_gptxw"]
-[ext_resource type="Script" uid="uid://d0c2fjanijvwl" path="res://front/screens/characters_screen.gd" id="1_iq01v"]
+[ext_resource type="PackedScene" uid="uid://uw5wh17b77nl" path="res://front/components/entities/character_preview.tscn" id="1_gptxw"]
 
 [node name="CharactersScreen" type="Control"]
 layout_mode = 3
@@ -12,7 +11,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("1_iq01v")
 
 [node name="CharactersRow" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -26,6 +24,8 @@ alignment = 1
 
 [node name="PlayerPreview" parent="CharactersRow" instance=ExtResource("1_gptxw")]
 layout_mode = 2
+script = null
 
 [node name="EnemyPreview" parent="CharactersRow" instance=ExtResource("1_gptxw")]
 layout_mode = 2
+script = null

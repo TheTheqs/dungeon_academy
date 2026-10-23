@@ -1,5 +1,6 @@
-class_name CharacterProfile
 extends RefCounted
+
+class_name CharacterProfile
 
 var id: int
 var character_name: String

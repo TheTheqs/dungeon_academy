@@ -1,5 +1,6 @@
-class_name Cell
 extends RefCounted
+
+class_name Cell
 
 var row: int
 var column: int

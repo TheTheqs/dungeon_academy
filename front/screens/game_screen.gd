@@ -1,7 +1,11 @@
-class_name GameScreen
 extends Control
 
+class_name GameScreen
+
 const CHARACTER_SCENE: PackedScene = preload("res://front/components/entities/character_view.tscn")
+
+var controlled_runtime_id: String = ""
+var last_move_error: String = ""
 
 var _api: GameApi
 var _texture_loader: TextureLoader
@@ -13,7 +17,8 @@ var _map_texture_id: String = ""
 @onready var map_sprite: Sprite2D = $World/MapSprite
 @onready var entities: Node2D = $World/Entities
 
-func configure(api: GameApi, texture_loader: TextureLoader) -> void:
+func configure(api: GameApi, texture_loader: TextureLoader, runtime_id: String = "") -> void:
+	controlled_runtime_id = runtime_id
 	_api = api
 	_texture_loader = texture_loader
 
@@ -25,6 +30,9 @@ func _ready() -> void:
 	if snapshot == null:
 		push_error(_api.last_error)
 		return
+	# The MVP has one character. Bind once; never pick the first view per click.
+	if controlled_runtime_id.is_empty() and snapshot.characters.size() == 1:
+		controlled_runtime_id = snapshot.characters.keys()[0]
 	apply_snapshot(snapshot)
 
 func apply_snapshot(snapshot: GameStateDto) -> void:
@@ -64,3 +72,26 @@ func _center_world() -> void:
 	if map_sprite.texture != null:
 		# Only a display offset. Logical map origin stays at (0,0).
 		world.position = ((size - map_sprite.texture.get_size()) / 2.0).floor()
+
+# GUI input belongs to this full-screen gameplay view. Overlay UI can consume
+# its own events without also issuing commands through an _input() callback.
+func _gui_input(event: InputEvent) -> void:
+	if not event is InputEventMouseButton:
+		return
+	if event.button_index != MOUSE_BUTTON_RIGHT or not event.pressed:
+		return
+	if map_sprite.texture == null:
+		return
+	# GUI event.position is local to GameScreen. Transform it into World space
+	# rather than subtracting a hardcoded centering offset or window scale.
+	var canvas_position: Vector2 = get_global_transform_with_canvas() * event.position
+	var map_position: Vector2 = world.get_global_transform_with_canvas().affine_inverse() * canvas_position
+
+	if not controlled_runtime_id.is_empty():
+		var accepted := _api.move_character(controlled_runtime_id, MapPositionDto.new(map_position.x, map_position.y))
+		last_move_error = _api.last_error
+		if accepted:
+			var snapshot := _api.get_game_state()
+			if snapshot != null:
+				apply_snapshot(snapshot)
+	accept_event()

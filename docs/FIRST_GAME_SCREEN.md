@@ -1,3 +1,5 @@
+> Registro da primeira tela. A etapa seguinte já captura clique direito, prepara a intenção de movimento e alterna idle/run. Consulte MOVEMENT_INTENTION.md; o deslocamento por step ainda não foi implementado.
+
 # Primeira tela da partida
 
 ## Ordem de execução
@@ -51,7 +53,7 @@ do asset atual; futuros personagens podem precisar de offsets próprios.
 
 A animação idle foi configurada como loop. Não foi reutilizado o comportamento de
 preview que troca automaticamente idle/run/attack/action/death. A tela antiga de
-preview continua disponível isoladamente, mas Main agora abre GameScreen.
+preview e seus componentes foram removidos. Main abre somente GameScreen.
 
 apply_snapshot() mantém um registro runtime_id -> CharacterView: reutiliza views
 existentes, cria ausentes e remove as que não constam mais no snapshot. Hoje é chamado

@@ -1,5 +1,6 @@
-class_name PathfindingService
 extends RefCounted
+
+class_name PathfindingService
 
 const STRAIGHT_COST: float = 1.0
 const DIAGONAL_COST: float = 1.4142135623730951

@@ -88,7 +88,8 @@ func _test_gateway() -> void:
 	var state := GameState.new({"1": runtime},runtime_map)
 	check(state.get_character("1") == runtime and state.get_character("missing") == null, "GameState uses RuntimeCharacter")
 	check(gateway.load_all("res://missing.json","res://missing.json"), "loaded gateway does not reread files")
-	check(GameApi.new(gateway).get_player_character() == "swordsman_m", "API consumes injected database")
+	var api := GameApi.new(gateway, RuntimeIdGenerator.new(), SnapshotMapper.new(), GridCoordinates.new(), PathfindingService.new(), CharacterMovement.new(GridCoordinates.new()))
+	check(api.start_game(0, 0) and api.get_game_state().characters.values()[0].textures == ["swordsman_m"], "API consumes injected database")
 
 func _test_repository_inputs() -> void:
 	var textures: Array[String] = ["original"]

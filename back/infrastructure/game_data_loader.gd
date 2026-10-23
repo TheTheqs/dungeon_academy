@@ -1,5 +1,6 @@
-class_name GameDataLoader
 extends RefCounted
+
+class_name GameDataLoader
 
 var error_message: String = ""
 

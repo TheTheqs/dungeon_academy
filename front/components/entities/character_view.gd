@@ -1,5 +1,6 @@
-class_name CharacterView
 extends Node2D
+
+class_name CharacterView
 
 var runtime_id: String
 
@@ -13,6 +14,8 @@ func configure(texture: Texture2D) -> void:
 func apply_snapshot(character: CharacterDto) -> void:
 	runtime_id = character.runtime_id
 	position = Vector2(character.position.x, character.position.y)
-	# This increment only presents idle. No simulation or movement in the view.
-	if animation_player.current_animation != "idle":
-		animation_player.play("idle")
+	# The source sprite faces right; the back sends an orientation, not a flip flag.
+	sprite.flip_h = character.facing_x < 0
+	var animation: StringName = &"run" if character.state == RuntimeCharacter.CharacterState.WALKING else &"idle"
+	if animation_player.current_animation != animation:
+		animation_player.play(animation)

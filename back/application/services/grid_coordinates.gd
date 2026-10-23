@@ -1,5 +1,6 @@
-class_name GridCoordinates
 extends RefCounted
+
+class_name GridCoordinates
 
 const CELL_SIZE: float = 16.0
 

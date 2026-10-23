@@ -133,8 +133,8 @@ etapa de hidratação fica após ler/mapear todas as tabelas e antes de publicá
 
 - Main carrega o gateway e o injeta em GameApi.
 - O personagem de preview agora vem do registro 0 de characters.json.
-- O inimigo wingpink permanece um preview temporário: não foi inventado um novo
-  registro no banco, pois characters.json contém apenas um personagem.
+- A tela antiga de preview foi removida. A partida renderiza apenas o personagem
+  carregado do banco; characters.json contém um personagem.
 - GameState, SnapshotMapper e CharacterDto tiveram referências antigas de Character
   atualizadas para RuntimeCharacter.
 - CharacterDto ainda referencia o enum de RuntimeCharacter, como já ocorria com

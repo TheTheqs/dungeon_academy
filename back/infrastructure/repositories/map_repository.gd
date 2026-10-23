@@ -1,5 +1,6 @@
-class_name MapRepository
 extends RefCounted
+
+class_name MapRepository
 
 var _by_id: Dictionary[int, MapProfile] = {}
 

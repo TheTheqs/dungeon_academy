@@ -1,5 +1,6 @@
-class_name CharacterRepository
 extends RefCounted
+
+class_name CharacterRepository
 
 var _by_id: Dictionary[int, CharacterProfile] = {}
 

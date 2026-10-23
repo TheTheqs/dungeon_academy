@@ -1,5 +1,6 @@
-class_name RuntimeIdGenerator
 extends RefCounted
+
+class_name RuntimeIdGenerator
 
 # Share one generator per match across all entities that need runtime IDs.
 # IDs are unique within that instance's sequence, not across matches/processes.

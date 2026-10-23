@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://rmmptibj53bv"]
+[gd_scene load_steps=9 format=3 uid="uid://uw5wh17b77nl"]
 
-[ext_resource type="Script" uid="uid://ftfqu15u6vko" path="res://front/components/entities/character_preview.gd" id="1_i3o8x"]
+[ext_resource type="Script" path="res://front/components/entities/character_preview.gd" id="1_i3o8x"]
 
 [sub_resource type="Animation" id="Animation_tqw4p"]
 length = 0.001

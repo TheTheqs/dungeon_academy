@@ -15,7 +15,7 @@ func check(condition: bool, message: String) -> void:
 func run() -> void:
 	var gateway := DataGateway.new()
 	check(gateway.load_all(), "real database loads")
-	var api := GameApi.new(gateway)
+	var api := GameApi.new(gateway, RuntimeIdGenerator.new(), SnapshotMapper.new(), GridCoordinates.new(), PathfindingService.new(), CharacterMovement.new(GridCoordinates.new()))
 	check(api.get_game_state() == null and not api.last_error.is_empty(), "state unavailable before starting")
 	check(not api.start_game(999,0), "unknown character rejected")
 	check(not api.start_game(0,999), "unknown map rejected")

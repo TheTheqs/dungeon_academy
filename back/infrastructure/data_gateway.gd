@@ -1,5 +1,6 @@
-class_name DataGateway
 extends RefCounted
+
+class_name DataGateway
 
 var _characters := CharacterRepository.new()
 var _maps := MapRepository.new()

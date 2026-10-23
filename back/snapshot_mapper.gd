@@ -1,5 +1,6 @@
-class_name SnapshotMapper
 extends RefCounted
+
+class_name SnapshotMapper
 
 ## Builds fresh DTOs; neither entities nor profile collections escape the back.
 func game_state_to_dto(game_state: GameState) -> GameStateDto:
@@ -21,7 +22,8 @@ func character_to_dto(character: RuntimeCharacter) -> CharacterDto:
 		character.character_profile.character_name,
 		character.state,
 		map_position_to_dto(character.position),
-		character.character_profile.textures
+		character.character_profile.textures,
+		character.facing_x
 	)
 
 func map_position_to_dto(position: MapPosition) -> MapPositionDto:

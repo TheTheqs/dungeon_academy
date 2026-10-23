@@ -1,5 +1,6 @@
-class_name StartGameUseCase
 extends RefCounted
+
+class_name StartGameUseCase
 
 var last_error: String = ""
 var _gateway: DataGateway

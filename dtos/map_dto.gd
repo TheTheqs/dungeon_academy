@@ -1,5 +1,6 @@
-class_name MapDto
 extends RefCounted
+
+class_name MapDto
 
 var id: int
 var map_name: String
